@@ -1,12 +1,11 @@
 
 
-
-
+require "byebug"
 class TicTacToe
     attr_reader :array
     def initialize(name)
         @name = name
-        @array = Array.new(3) {Array.new(3," ")}
+        @array = Array.new(3) {Array.new(3," ")}
     end
 
     def showGrid
@@ -19,29 +18,19 @@ class TicTacToe
     def empty?
         index_array = []
         @array.each_with_index do |ele,index|
-            ele.each_with_index {|second_ele , second_index| index_array.push([index,second_index])  if second_ele == " " }
+            ele.each_with_index {|second_ele , second_index| index_array.push([index,second_index])  if second_ele == " " }
         end
-        if index_array.flatten!.empty?
+        if index_array.flatten.empty?
             puts "it's a Tie , Game Over!"
             return true
         end
     end
-    
-    def gameOver?
-        if winCondition("X")== true || winCondition("O") == true || empty? == true
-            return true
-        else
-            return false
-        end
-    end
-    
-
 
     def computerPlay
         sleep 0.5
         index_array = []
         @array.each_with_index do |ele,index|
-            ele.each_with_index {|second_ele , second_index| index_array.push([index,second_index])  if second_ele == " " }
+            ele.each_with_index {|second_ele , second_index| index_array.push([index,second_index])  if second_ele == " " }
         end
         if index_array.empty?
             return false
@@ -68,7 +57,7 @@ class TicTacToe
             puts "Invalid Column"
             column = gets.chomp.to_i
         end
-        if @array[row][column] == " "
+        if @array[row][column] == " "
             @array[row][column] = "X"
         else
             puts "---------"
@@ -92,23 +81,19 @@ class TicTacToe
             if choice == "X"
                 puts "#{@name} Won!"
                 return true
-            elsif choice == "O"
-                puts "Computer Won"
-                return true
             else
-                puts "it's a tie"
+                choice == "O"
+                puts "Computer Won"
                 return true
             end
         end
     end
 
     def playGame
-        until gameOver? == true
-            array = [computerPlay , showGrid , player , showGrid]
-            array.each do |ele|
-                ele
-                gameOver?
-            end
+        until winCondition("X") == true || winCondition("O") == true || empty? == true
+        showGrid
+        player
+        computerPlay
         end
     end
 
